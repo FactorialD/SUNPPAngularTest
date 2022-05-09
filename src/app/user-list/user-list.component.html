@@ -1,0 +1,21 @@
+<div class="card my-5">
+  <div class="card-body">
+    <table class="table table-bordered table-striped">
+      <thead class="thead-dark">
+      <tr>
+        <th scope="col">Ідентифікатор користувача</th>
+        <th scope="col">Логін користувача</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let user of users">
+        <td>{{ user.id }}</td>
+        <td>{{ user.login }}</td>
+<!--        <td *ngIf="currentUserComponent.currentUser === null || user!==currentUserComponent.currentUser">-->
+<!--          <button (click)="currentUserComponent.chooseCurrentUser($event,user)">Працювати з сайтом від його імені</button>-->
+<!--        </td>-->
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

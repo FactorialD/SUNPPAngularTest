@@ -1,0 +1,26 @@
+<div class="card my-5">
+  <div class="card-body">
+    <table class="table table-bordered table-striped">
+      <thead class="thead-dark">
+      <tr>
+        <th scope="col">Ідентифікатор сервісу</th>
+        <th scope="col">Назва сервісу</th>
+        <th scope="col">Власник сервісу</th>
+        <th scope="col">Доступна роль</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let service of services">
+        <td>{{ service.id }}</td>
+        <td>{{ service.name }}</td>
+        <td>{{ service.ownerUser.login}}</td>
+        <td>
+            <ul *ngFor="let role of service.avaliableRoles">
+              <li>{{ role.name }}</li>
+            </ul>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

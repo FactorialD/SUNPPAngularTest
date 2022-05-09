@@ -1,0 +1,35 @@
+<div class="container">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card bg-dark my-5">
+        <div class="card-body">
+          <h2 class="card-title text-center text-white py-3">{{ title }}</h2>
+          <ul class="text-center list-inline py-3">
+            <li class="list-inline-item">
+              <a routerLink="/users" class="btn btn-info">Список користувачів</a>
+            </li>
+            <li>
+              <a routerLink="/workers" class="btn btn-info">Список робітників</a>
+            </li>
+            <li>
+              <a routerLink="/services" class="btn btn-info">Список сервісів</a>
+            </li>
+            <li>
+              <a routerLink="/departments" class="btn btn-info">Список підрозділів</a>
+            </li>
+            <li>
+              <a routerLink="/positions" class="btn btn-info">Список посад</a>
+            </li>
+            <li>
+              <a routerLink="/applications" class="btn btn-info">Список заявок</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <br>
+      <app-current-user></app-current-user>
+      <br>
+      <router-outlet></router-outlet>
+    </div>
+  </div>
+</div>
