@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {Service} from '../model/service';
-import {ServiceServiceService} from '../service/service-service.service';
+import {ServiceService} from '../service/service.service';
 
 @Component({
   selector: 'app-service-list',
@@ -11,7 +11,7 @@ export class ServiceListComponent implements OnInit {
 
   services: Service[];
 
-  constructor(private serviceService: ServiceServiceService) { }
+  constructor(private serviceService: ServiceService) { }
 
   ngOnInit() {
     this.serviceService.findAll().subscribe(data => {

@@ -7,7 +7,7 @@ import {Service} from '../model/service';
 @Injectable({
   providedIn: 'root'
 })
-export class ServiceServiceService {
+export class ServiceService {
 
   private servicesUrl: string;
 

@@ -1,6 +1,7 @@
 import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 import {User} from '../model/user';
 import {UserServiceService} from '../service/user-service.service';
+import {SharedCurrentUserService} from '../service/shared-current-user.service';
 
 @Component({
   selector: 'app-current-user',
@@ -10,19 +11,15 @@ import {UserServiceService} from '../service/user-service.service';
 export class CurrentUserComponent implements OnInit {
 
   currentUser: User;
-  constructor(private userService: UserServiceService) { }
+  constructor(private userService: UserServiceService, private sharedCurrentUserService: SharedCurrentUserService) { }
 
   ngOnInit() {
-    this.currentUser = null;
+    this.sharedCurrentUserService.currentUser.subscribe(data => {
+      this.currentUser = data;
+      console.log('now current user is ', this.currentUser);
+    });
   }
 
-  chooseCurrentUser(event, user: User) {
-    this.currentUser = user;
-  }
 
-  // @Output() currentUserEmitter = new EventEmitter<User>();
-  // getCurrentUser() {
-  //   this.currentUserEmitter.emit(this.currentUser);
-  // }
 
 }

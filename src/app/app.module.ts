@@ -8,7 +8,7 @@ import { UserListComponent } from './user-list/user-list.component';
 import {HttpClientModule} from '@angular/common/http';
 import {FormsModule} from '@angular/forms';
 import {UserServiceService} from './service/user-service.service';
-import {ServiceServiceService} from './service/service-service.service';
+import {ServiceService} from './service/service.service';
 import { CurrentUserComponent } from './current-user/current-user.component';
 
 @NgModule({
@@ -24,7 +24,7 @@ import { CurrentUserComponent } from './current-user/current-user.component';
     HttpClientModule,
     FormsModule
   ],
-  providers: [UserServiceService, ServiceServiceService],
+  providers: [UserServiceService, ServiceService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

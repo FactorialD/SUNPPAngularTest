@@ -11,9 +11,9 @@
       <tr *ngFor="let user of users">
         <td>{{ user.id }}</td>
         <td>{{ user.login }}</td>
-<!--        <td *ngIf="currentUserComponent.currentUser === null || user!==currentUserComponent.currentUser">-->
-<!--          <button (click)="currentUserComponent.chooseCurrentUser($event,user)">Працювати з сайтом від його імені</button>-->
-<!--        </td>-->
+        <td *ngIf="currentUser === null || user!==currentUser">
+          <button (click)="chooseCurrentUser($event,user)">Працювати з сайтом від його імені</button>
+        </td>
       </tr>
       </tbody>
     </table>
