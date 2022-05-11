@@ -1,0 +1,16 @@
+<div class="card bg-secondary">
+  <div class="card-body">
+    <table class="table">
+      <thead class="thead-secondary">
+      <tr>
+        <th scope="col">Назва підрозділу</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let department of departments">
+        <td>{{ department.name }}</td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

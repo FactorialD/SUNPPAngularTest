@@ -1,0 +1,29 @@
+<div class="card bg-secondary">
+  <div class="card-body">
+    <table class="table">
+      <thead class="thead-secondary">
+      <tr>
+        <th scope="col">Логін користувача</th>
+        <th scope="col">Ролі користувача</th>
+        <th scope="col">Дії</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let user of users">
+        <td>{{ user.login }}</td>
+        <td>
+          <ul class="list-group">
+            <li *ngIf="user.roles.length == 0" class="list-group-item list-group-item-dark">Ролей немає</li>
+            <li *ngFor="let access of user.roles" class="list-group-item list-group-item-secondary">
+              {{ access.role.name}}, {{access.service.name}}, {{access.department === null? 'Глобальний доступ': access.department.name}}
+            </li>
+          </ul>
+        </td>
+        <td *ngIf="currentUser === null || currentUser.id !== user.id">
+          <button class="btn btn-button" type="button" (click)="chooseCurrentUser($event,user)">Залогуватися</button>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

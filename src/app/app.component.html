@@ -1,35 +1,60 @@
-<div class="container">
+<div class="container-fluid">
   <div class="row">
-    <div class="col-md-12">
-      <div class="card bg-dark my-5">
+    <h2 class="text-center text-white mx-3">{{ title }}</h2>
+  </div>
+  <div class="row">
+    <div class="card-columns mx-3">
+      <div class="card bg-secondary">
+        <div class="card-header">
+          Доступні дії
+        </div>
         <div class="card-body">
-          <h2 class="card-title text-center text-white py-3">{{ title }}</h2>
-          <ul class="text-center list-inline py-3">
-            <li class="list-inline-item">
-              <a routerLink="/users" class="btn btn-info">Список користувачів</a>
+          <ul class="list-group">
+            <li class="list-group-item list-group-item-secondary">
+              <a routerLink="/users" class="card-link">Список користувачів</a>
             </li>
-            <li>
-              <a routerLink="/workers" class="btn btn-info">Список робітників</a>
-            </li>
-            <li>
-              <a routerLink="/services" class="btn btn-info">Список сервісів</a>
-            </li>
-            <li>
-              <a routerLink="/departments" class="btn btn-info">Список підрозділів</a>
-            </li>
-            <li>
-              <a routerLink="/positions" class="btn btn-info">Список посад</a>
-            </li>
-            <li>
-              <a routerLink="/applications" class="btn btn-info">Список заявок</a>
+            <li class="list-group-item list-group-item-secondary">
+              <a routerLink="/services" class="card-link">Список сервісів</a>
             </li>
           </ul>
         </div>
       </div>
-      <br>
+      <div *ngIf="currentUser!= null && userService.isUserOwner(currentUser)" class="card bg-secondary">
+          <div class="card-header">Додаткові дії для власника:</div>
+          <div class="card-body">
+            <ul class="list-group">
+              <li class="list-group-item list-group-item-secondary">
+                <a routerLink="/applicationsOwner" class="card-link">Список заявок до власника</a>
+              </li>
+            </ul>
+          </div>
+      </div>
+      <div *ngIf="currentUser!= null && userService.isUserAdmin(currentUser)" class="card bg-secondary">
+        <div class="card-header">Дії для адміністратора:</div>
+        <div class="card-body">
+          <ul class="list-group">
+            <li class="list-group-item list-group-item-secondary">
+              <a routerLink="/applicationsAdmin" class="card-link">Список заявок до адміністратора</a>
+            </li>
+            <li class="list-group-item list-group-item-secondary">
+              <a routerLink="/workers" class="card-link">Список робітників</a>
+            </li >
+            <li class="list-group-item list-group-item-secondary">
+              <a routerLink="/departments" class="card-link">Список підрозділів</a>
+            </li>
+            <li class="list-group-item list-group-item-secondary">
+              <a routerLink="/positions" class="card-link">Список посад</a>
+            </li>
+          </ul>
+        </div>
+      </div>
       <app-current-user></app-current-user>
-      <br>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col">
       <router-outlet></router-outlet>
     </div>
+
   </div>
 </div>

@@ -1,0 +1,23 @@
+<div class="card bg-secondary">
+  <div *ngIf="currentUser != null; else elseBlock">
+    <div class="card-header">Вибраний користувач:</div>
+    <div class="card-body">
+      <ul class="list-group">
+        <li class="list-group-item list-group-item-secondary">
+          {{ currentUser.login }}
+        </li>
+        <li class="list-group-item list-group-item-secondary">
+          {{ sharedCurrentUserService.getUniqueRoles().toString() }}
+        </li>
+      </ul>
+    </div>
+  </div>
+  <ng-template #elseBlock>
+    <div class="card-header">Ви не залоговані</div>
+    <div class="card-body">
+      Виберіть користувача, щоб скористатися більшою кількістю послуг
+    </div>
+  </ng-template>
+
+</div>
+

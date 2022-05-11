@@ -1,0 +1,82 @@
+<div class="card bg-secondary">
+  <div class="card-body">
+    <div id="accordion">
+      <table class="table">
+        <thead class="thead-secondary">
+        <tr>
+          <th scope="col">Назва сервісу</th>
+          <th scope="col">Доступна роль</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let service of services; index as i">
+          <td>{{ service.name }}</td>
+          <td>
+            <ul class="list-group">
+              <li class="list-group-item list-group-item-secondary" *ngFor="let role of service.avaliableRoles; index as j">
+                <div class="card">
+                  <div class="card-header">
+                    {{ role.name }}
+                  </div>
+                  <div *ngIf="currentUser.getCurrentUser()!=null">
+                    <div id="">
+                      <button class="btn btn-link" type="button" data-toggle="collapse"
+                              [attr.data-target]="'#collapse'+ i + '_' + j"
+                              aria-expanded="true"
+                              [attr.aria-controls]="'collapse'+ i + '_' + j">
+                        Створити заявку...
+                      </button>
+                      <div class="collapse" [attr.id]="'collapse'+ i + '_' + j" data-parent="#accordion">
+                        <div class="card-body">
+                          <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                              <span class="input-group-text">Підрозділ:</span>
+                            </div>
+                            <select class="form-control" id="selectDepartment" #departmentSelect>
+                              <option [value]="null">Глобальний доступ</option>
+                              <option [value]="department.id" *ngFor="let department of departments">{{ department.name }}</option>
+                            </select>
+                          </div>
+                          <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                              <span class="input-group-text">Коментар:</span>
+                            </div>
+                            <textarea class="form-control" #noteField aria-label="Коментар" placeholder="Опціонально"></textarea>
+                          </div>
+                          <div class="input-group mb-3">
+                            <button class="btn btn-button"
+                                    type="button"
+                                    (click)="addNewApplication($event, content, service, role, departmentSelect.value, noteField.value, i ,j)"
+                                    data-toggle="collapse"
+                                    [attr.data-target]="'#collapse'+ i + '_' + j"
+                                    [attr.aria-controls]="'collapse'+ i + '_' + j">
+                              Створити заявку
+                            </button>
+                          </div>
+                          <ng-template #content let-modal>
+                            <div class="modal-header bg-secondary">
+                              <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+                                <span aria-hidden="true">&times;</span>
+                              </button>
+                            </div>
+                            <div class="modal-body">
+                              Заявка додана!
+                            </div>
+                            <div class="modal-footer">
+                            </div>
+                          </ng-template>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </li>
+            </ul>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+</div>

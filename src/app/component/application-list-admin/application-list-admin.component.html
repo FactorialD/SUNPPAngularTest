@@ -1,0 +1,81 @@
+<div class="card bg-secondary">
+  <div class="card-body">
+    <table *ngIf="currentUserService.getCurrentUser()!==null && userService.isUserAdmin(currentUserService.getCurrentUser()); else elseNoAdmin"
+           class="table"
+           id="table">
+      <thead class="thead-secondary">
+      <tr>
+        <th scope="col">Логін заявляча</th>
+        <th scope="col">Потрібний сервіс</th>
+        <th scope="col">Потрібна роль</th>
+        <th scope="col">Підрозділ</th>
+        <th scope="col">Коментар</th>
+        <th scope="col">Дата створення</th>
+        <th scope="col">Перевірено власником</th>
+        <th scope="col">Перевірено адміністратором</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let application of applications">
+        <td>{{ application.applicant.login }}</td>
+        <td>{{ application.service.name }}</td>
+        <td>{{ applicationService.getUserCheck(application).role.name }}</td>
+        <td>{{ application.department != null? application.department.name : 'Глобальний доступ' }}</td>
+        <td>{{ applicationService.getUserCheck(application).note != null? applicationService.getUserCheck(application).note : 'Відсутній'}}</td>
+        <td>{{ getFancyDate(application.creationDate) }}</td>
+        <td>
+          <div *ngIf="applicationService.getOwnerCheck(application).checkYesNoNull == null; else elseBlock">
+            <ul class="list-group">
+              <li class="list-group-item list-group-item-dark">
+                Не перевірено власником
+              </li>
+            </ul>
+          </div>
+          <ng-template #elseBlock>
+            <ul list-group>
+              <li class="list-group-item list-group-item-secondary">
+                {{ applicationService.getOwnerCheck(application).user.login }}:
+              </li >
+              <li class="list-group-item list-group-item-{{applicationService.getOwnerCheck(application).checkYesNoNull === true? 'success':'danger'}}">
+                {{ applicationService.getOwnerCheck(application).checkYesNoNull === true? 'Прийнято' : 'Відхилено' }}
+              </li>
+              <li *ngIf="applicationService.getOwnerCheck(application).note != null" class="list-group-item list-group-item-secondary">
+                {{ applicationService.getOwnerCheck(application).note }}
+              </li>
+              <li class="list-group-item list-group-item-secondary">
+                {{ getFancyDate(applicationService.getOwnerCheck(application).checkingDate) }}
+              </li>
+            </ul>
+          </ng-template>
+        </td>
+        <td>
+          <div *ngIf="applicationService.getAdminCheck(application).checkYesNoNull == null; else elseBlock2">
+            <ul class="list-group">
+              <li class="list-group-item list-group-item-dark">
+                Не перевірено адміністратором
+              </li>
+            </ul>
+          </div>
+          <ng-template #elseBlock2>
+            <ul list-group>
+              <li class="list-group-item list-group-item-secondary">
+                {{ applicationService.getAdminCheck(application).user.login }}:
+              </li >
+              <li class="list-group-item list-group-item-{{applicationService.getAdminCheck(application).checkYesNoNull === true? 'success':'danger'}}">
+                {{ applicationService.getAdminCheck(application).checkYesNoNull === true? 'Прийнято' : 'Відхилено' }}
+              </li>
+              <li *ngIf="applicationService.getAdminCheck(application).note != null" class="list-group-item list-group-item-secondary">
+                {{ applicationService.getAdminCheck(application).note }}
+              </li>
+              <li class="list-group-item list-group-item-secondary">
+                {{ getFancyDate(applicationService.getAdminCheck(application).checkingDate) }}
+              </li>
+            </ul>
+          </ng-template>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+    <ng-template #elseNoAdmin>Помилка доступу.</ng-template>
+  </div>
+</div>
