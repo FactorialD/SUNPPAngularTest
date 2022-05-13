@@ -1,6 +1,7 @@
 <div class="card bg-secondary">
   <div class="card-body">
     <div id="accordion">
+      <!--Таблиця з даними сервісів-->
       <table class="table">
         <thead class="thead-secondary">
         <tr>
@@ -18,6 +19,7 @@
                   <div class="card-header">
                     {{ role.name }}
                   </div>
+                  <!--Якщо є вибраний користувач, то можна створити заявку-->
                   <div *ngIf="currentUser.getCurrentUser()!=null">
                     <div id="">
                       <button class="btn btn-link" type="button" data-toggle="collapse"
@@ -26,6 +28,7 @@
                               [attr.aria-controls]="'collapse'+ i + '_' + j">
                         Створити заявку...
                       </button>
+                      <!--Випадаюча форма з полями для заповнення даних для заявки-->
                       <div class="collapse" [attr.id]="'collapse'+ i + '_' + j" data-parent="#accordion">
                         <div class="card-body">
                           <div class="input-group mb-3">
@@ -43,16 +46,18 @@
                             </div>
                             <textarea class="form-control" #noteField aria-label="Коментар" placeholder="Опціонально"></textarea>
                           </div>
+                          <!--Кнопка для створення заявки-->
                           <div class="input-group mb-3">
                             <button class="btn btn-button"
                                     type="button"
-                                    (click)="addNewApplication($event, content, service, role, departmentSelect.value, noteField.value, i ,j)"
+                                    (click)="addNewApplication($event, content, service, role, departmentSelect.value, noteField.value)"
                                     data-toggle="collapse"
                                     [attr.data-target]="'#collapse'+ i + '_' + j"
                                     [attr.aria-controls]="'collapse'+ i + '_' + j">
                               Створити заявку
                             </button>
                           </div>
+                          <!--Вспливаюче вікно, що підтверджує додання заявки-->
                           <ng-template #content let-modal>
                             <div class="modal-header bg-secondary">
                               <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
@@ -77,6 +82,5 @@
         </tbody>
       </table>
     </div>
-
   </div>
 </div>

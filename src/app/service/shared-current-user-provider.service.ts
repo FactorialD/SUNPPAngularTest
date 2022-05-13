@@ -11,18 +11,10 @@ export class SharedCurrentUserProviderService {
   private currentUserData = new BehaviorSubject<User>(null);
   currentUser = this.currentUserData.asObservable();
 
-  private lastApplicationData = new BehaviorSubject<Application>(null);
-  lastApplication = this.lastApplicationData.asObservable();
-
   constructor() {  }
 
   chooseCurrentUser(user: User) {
     this.currentUserData.next(user);
-
-  }
-
-  setLastApplication(application: Application) {
-    this.lastApplicationData.next(application);
 
   }
 

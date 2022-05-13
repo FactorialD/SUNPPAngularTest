@@ -5,21 +5,27 @@ import {SharedCurrentUserProviderService} from '../../service/shared-current-use
 import {DepartmentProviderService} from '../../service/department-provider.service';
 import {Department} from '../../model/department';
 import {ApplicationProviderService} from '../../service/application-provider.service';
-import {User} from '../../model/user';
 import {Role} from '../../model/role';
-import {Application} from '../../model/application';
-import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-service-list',
-  templateUrl: './service-list.component.html',
-  styleUrls: ['./service-list.component.css']
+  templateUrl: './service-list.component.html'
 })
+
+/**
+ * Клас відповідає за компонент зі списком сервісів
+ */
 export class ServiceListComponent implements OnInit {
 
+  /**
+   * Зберігає сервіси
+   */
   services: Service[];
+
+  /**
+   * Зберігає підрозділи
+   */
   departments: Department[];
-  lastApplication: Application;
 
   constructor(private serviceService: ServiceProviderService,
               private currentUser: SharedCurrentUserProviderService,
@@ -33,10 +39,18 @@ export class ServiceListComponent implements OnInit {
     this.departmentService.findAll().subscribe(data => {
       this.departments = data;
     });
-    console.log(this.lastApplication);
   }
 
-  addNewApplication(event, content, service: Service, role: Role, departmentId: string | null, note: string | null, i: number, j: number) {
+  /**
+   * Викликає метод сервісу, щоб створити нову заявку
+   * @param event подія
+   * @param content контент блоку вспливаючого вікна
+   * @param service сервіс для заявки
+   * @param role роль для заявки
+   * @param departmentId опціональний підрозділ для заявки
+   * @param note опціональний коментар для заявки
+   */
+  addNewApplication(event, content, service: Service, role: Role, departmentId: string | null, note: string | null) {
     this.applicationService.createNewApplication(service.id, role.id, departmentId, note, content);
   }
 

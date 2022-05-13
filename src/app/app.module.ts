@@ -16,7 +16,6 @@ import { WorkerListComponent } from './component/worker-list/worker-list.compone
 import { PositionListComponent } from './component/position-list/position-list.component';
 import { ApplicationListAdminComponent } from './component/application-list-admin/application-list-admin.component';
 import {ApplicationProviderService} from './service/application-provider.service';
-import {NgbModalBackdrop} from '@ng-bootstrap/ng-bootstrap/modal/modal-backdrop';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import { ApplicationListOwnerComponent } from './component/application-list-owner/application-list-owner.component';
 

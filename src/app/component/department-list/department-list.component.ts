@@ -4,10 +4,16 @@ import {DepartmentProviderService} from '../../service/department-provider.servi
 
 @Component({
   selector: 'app-department-list',
-  templateUrl: './department-list.component.html',
-  styleUrls: ['./department-list.component.css']
+  templateUrl: './department-list.component.html'
 })
+
+/**
+ * Клас відповідає за компонент зі списком підрозділів
+ */
 export class DepartmentListComponent implements OnInit {
+  /**
+   * Зберігає дані підрозділів
+   */
   departments: Department[];
 
   constructor(private departmentService: DepartmentProviderService) { }

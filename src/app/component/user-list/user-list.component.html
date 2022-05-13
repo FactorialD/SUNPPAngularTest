@@ -1,5 +1,6 @@
 <div class="card bg-secondary">
   <div class="card-body">
+    <!--Таблиця користувачів-->
     <table class="table">
       <thead class="thead-secondary">
       <tr>
@@ -19,6 +20,7 @@
             </li>
           </ul>
         </td>
+        <!--Кнопка для зміни чи вибору теперішнього користувача-->
         <td *ngIf="currentUser === null || currentUser.id !== user.id">
           <button class="btn btn-button" type="button" (click)="chooseCurrentUser($event,user)">Залогуватися</button>
         </td>

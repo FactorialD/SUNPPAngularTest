@@ -4,11 +4,17 @@ import {WorkerProviderService} from '../../service/worker-provider.service';
 
 @Component({
   selector: 'app-worker-list',
-  templateUrl: './worker-list.component.html',
-  styleUrls: ['./worker-list.component.css']
+  templateUrl: './worker-list.component.html'
 })
+
+/**
+ * Клас відповідає за компонент зі списком робітників
+ */
 export class WorkerListComponent implements OnInit {
 
+  /**
+   * Список всіх робітників
+   */
   workers: Worker[];
 
   constructor(private workerService: WorkerProviderService) { }

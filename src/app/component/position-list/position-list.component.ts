@@ -4,11 +4,17 @@ import {PositionProviderService} from '../../service/position-provider.service';
 
 @Component({
   selector: 'app-position-list',
-  templateUrl: './position-list.component.html',
-  styleUrls: ['./position-list.component.css']
+  templateUrl: './position-list.component.html'
 })
+
+/**
+ * Клас відповідає за компонент зі списком посад
+ */
 export class PositionListComponent implements OnInit {
 
+  /**
+   * Зберігає дані посад
+   */
   positions: Position[];
 
   constructor(private positionService: PositionProviderService) { }
