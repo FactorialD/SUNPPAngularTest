@@ -1,162 +1,165 @@
 <div class="card bg-secondary">
   <div class="card-body">
-    <!--Відображає таблицю зі списком заявок для адміністратора-->
-    <table *ngIf="currentUserService.getCurrentUser()!==null && userService.isUserAdmin(currentUserService.getCurrentUser()); else elseNoAdmin"
-           class="table"
-           id="table">
-      <thead class="thead-secondary">
-      <tr>
-        <th scope="col">Логін заявляча</th>
-        <th scope="col">Потрібний сервіс</th>
-        <th scope="col">Потрібна роль</th>
-        <th scope="col">Підрозділ</th>
-        <th scope="col">Коментар</th>
-        <th scope="col">Дата створення</th>
-        <th scope="col">Перевірено власником</th>
-        <th scope="col">Перевірено адміністратором</th>
-      </tr>
-      </thead>
-      <tbody>
-      <tr *ngFor="let application of applications">
-        <td>{{ application.applicant.login }}</td>
-        <td>{{ application.service.name }}</td>
-        <td>{{ applicationService.getUserCheck(application).role.name }}</td>
-        <td>{{ application.department != null? application.department.name : 'Глобальний доступ' }}</td>
-        <td>{{ applicationService.getUserCheck(application).note != null? applicationService.getUserCheck(application).note : 'Відсутній'}}</td>
-        <td>{{ applicationService.getFancyDate(application.creationDate, this.locale) }}</td>
-        <td>
-          <!--Якщо заявка не перевірена власником-->
-          <div *ngIf="applicationService.getOwnerCheck(application).checkYesNoNull == null; else elseBlock">
-            <ul class="list-group">
-              <li class="list-group-item list-group-item-dark">
-                Ще не перевірено власником
-              </li>
-            </ul>
-          </div>
-          <!--Картка з даними перевіряючого-->
-          <ng-template #elseBlock>
-            <ul list-group>
-              <li class="list-group-item list-group-item-secondary">
-                {{ applicationService.getOwnerCheck(application).user.login }}:
-              </li >
-              <li class="list-group-item list-group-item-{{applicationService.getOwnerCheck(application).checkYesNoNull === true? 'success':'danger'}}">
-                {{ applicationService.getOwnerCheck(application).checkYesNoNull === true? 'Прийнято' : 'Відхилено' }}
-              </li>
-              <li *ngIf="applicationService.getOwnerCheck(application).note != null" class="list-group-item list-group-item-secondary">
-                {{ applicationService.getOwnerCheck(application).note }}
-              </li>
-              <li class="list-group-item list-group-item-secondary">
-                {{ applicationService.getFancyDate(applicationService.getOwnerCheck(application).checkingDate, this.locale) }}
-              </li>
-            </ul>
-          </ng-template>
-        </td>
-        <td>
-          <!--Якщо заявка може прийнята власником-->
-          <div *ngIf=" applicationService.getOwnerCheck(application).checkYesNoNull === true">
-            <!--Показуємо кнопку винесення рішення щодо заявки-->
-            <div *ngIf="applicationService.getAdminCheck(application).checkYesNoNull == null; else elseBlock2">
+    <div *ngIf="applications.length != 0; else applicationsExist">
+      <!--Відображає таблицю зі списком заявок для адміністратора-->
+      <table *ngIf="currentUserService.getCurrentUser()!==null && userService.isUserAdmin(currentUserService.getCurrentUser()); else elseNoAdmin"
+             class="table"
+             id="table">
+        <thead class="thead-secondary">
+        <tr>
+          <th scope="col">Логін заявляча</th>
+          <th scope="col">Потрібний сервіс</th>
+          <th scope="col">Потрібна роль</th>
+          <th scope="col">Підрозділ</th>
+          <th scope="col">Коментар</th>
+          <th scope="col">Дата створення</th>
+          <th scope="col">Перевірено власником</th>
+          <th scope="col">Перевірено адміністратором</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let application of applications">
+          <td>{{ application.applicant.login }}</td>
+          <td>{{ application.service.name }}</td>
+          <td>{{ applicationService.getUserCheck(application).role.name }}</td>
+          <td>{{ application.department != null? application.department.name : 'Глобальний доступ' }}</td>
+          <td>{{ applicationService.getUserCheck(application).note != null? applicationService.getUserCheck(application).note : 'Відсутній'}}</td>
+          <td>{{ applicationService.getFancyDate(application.creationDate, this.locale) }}</td>
+          <td>
+            <!--Якщо заявка не перевірена власником-->
+            <div *ngIf="applicationService.getOwnerCheck(application).checkYesNoNull == null; else elseBlock">
               <ul class="list-group">
                 <li class="list-group-item list-group-item-dark">
-                  Ще не перевірено адміністратором
+                  Ще не перевірено власником
                 </li>
-                <li class="list-group-item list-group-item-dark">
-                  <!--Кнопка відкриває вспливаюче вікно для винесення вердикту щодо заявки-->
-                  <button class="btn btn-button"
-                          type="button"
-                          (click)="openApplicationAcceptOrDismissModal(applicationVerdictContent)">
-                    Винести рішення
-                  </button>
-                  <ng-template #applicationVerdictContent let-modal>
+              </ul>
+            </div>
+            <!--Картка з даними перевіряючого-->
+            <ng-template #elseBlock>
+              <ul list-group>
+                <li class="list-group-item list-group-item-secondary">
+                  {{ applicationService.getOwnerCheck(application).user.login }}:
+                </li >
+                <li class="list-group-item list-group-item-{{applicationService.getOwnerCheck(application).checkYesNoNull === true? 'success':'danger'}}">
+                  {{ applicationService.getOwnerCheck(application).checkYesNoNull === true? 'Прийнято' : 'Відхилено' }}
+                </li>
+                <li *ngIf="applicationService.getOwnerCheck(application).note != null" class="list-group-item list-group-item-secondary">
+                  {{ applicationService.getOwnerCheck(application).note }}
+                </li>
+                <li class="list-group-item list-group-item-secondary">
+                  {{ applicationService.getFancyDate(applicationService.getOwnerCheck(application).checkingDate, this.locale) }}
+                </li>
+              </ul>
+            </ng-template>
+          </td>
+          <td>
+            <!--Якщо заявка може прийнята власником-->
+            <div *ngIf=" applicationService.getOwnerCheck(application).checkYesNoNull === true">
+              <!--Показуємо кнопку винесення рішення щодо заявки-->
+              <div *ngIf="applicationService.getAdminCheck(application).checkYesNoNull == null; else elseBlock2">
+                <ul class="list-group">
+                  <li class="list-group-item list-group-item-dark">
+                    Ще не перевірено адміністратором
+                  </li>
+                  <li class="list-group-item list-group-item-dark">
+                    <!--Кнопка відкриває вспливаюче вікно для винесення вердикту щодо заявки-->
+                    <button class="btn btn-button"
+                            type="button"
+                            (click)="openApplicationAcceptOrDismissModal(applicationVerdictContent)">
+                      Винести рішення
+                    </button>
+                    <ng-template #applicationVerdictContent let-modal>
+                      <div class="modal-header bg-secondary">
+                        <h4 class="modal-title bg-secondary" id="modal-basic-title">Винесіть рішення</h4>
+                        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+                          <span aria-hidden="true">&times;</span>
+                        </button>
+                      </div>
+                      <div class="modal-body">
+                        <!--Форма для коментара-->
+                        <div class="input-group mb-3">
+                          <div class="input-group-prepend">
+                            <span class="input-group-text">Коментар:</span>
+                          </div>
+                          <textarea class="form-control" #noteField aria-label="Коментар" placeholder="Опціонально"></textarea>
+                        </div>
+                        <!--Кпопки підтвердження і відхилення заявки-->
+                        <div class="input-group mb-3 text-center">
+                          <div class="col-6">
+                            <button class="btn btn-button btn-success"
+                                    type="button"
+                                    (click)="applicationService.acceptApplicationAsAdmin($event, applyMessageContent, application, noteField.value);
+                                        modal.close('Accept click')">
+                              Прийняти заявку
+                            </button>
+                          </div>
+                          <div class="col-6">
+                            <button class="btn btn-button btn-danger"
+                                    type="button"
+                                    (click)="applicationService.declineApplicationAsAdmin($event, declineMessageContent, application, noteField.value);
+                                        modal.close('Decline click')">
+                              Відхилити заявку
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="modal-footer">
+                      </div>
+                    </ng-template>
+                  </li>
+                  <!--Вспливаюче вікно підтвердження, що заявка була підтверджена-->
+                  <ng-template #applyMessageContent let-modal>
                     <div class="modal-header bg-secondary">
-                      <h4 class="modal-title bg-secondary" id="modal-basic-title">Винесіть рішення</h4>
                       <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
                         <span aria-hidden="true">&times;</span>
                       </button>
                     </div>
-                    <div class="modal-body">
-                      <!--Форма для коментара-->
-                      <div class="input-group mb-3">
-                        <div class="input-group-prepend">
-                          <span class="input-group-text">Коментар:</span>
-                        </div>
-                        <textarea class="form-control" #noteField aria-label="Коментар" placeholder="Опціонально"></textarea>
-                      </div>
-                      <!--Кпопки підтвердження і відхилення заявки-->
-                      <div class="input-group mb-3 text-center">
-                        <div class="col-6">
-                          <button class="btn btn-button btn-success"
-                                  type="button"
-                                  (click)="applicationService.acceptApplicationAsAdmin($event, applyMessageContent, application, noteField.value);
-                                        modal.close('Accept click')">
-                            Прийняти заявку
-                          </button>
-                        </div>
-                        <div class="col-6">
-                          <button class="btn btn-button btn-danger"
-                                  type="button"
-                                  (click)="applicationService.declineApplicationAsAdmin($event, declineMessageContent, application, noteField.value);
-                                        modal.close('Decline click')">
-                            Відхилити заявку
-                          </button>
-                        </div>
-                      </div>
+                    <div class="modal-body bg-secondary">
+                      Заявка підтверджена!
                     </div>
-                    <div class="modal-footer">
+                    <div class="modal-footer bg-secondary">
                     </div>
                   </ng-template>
-                </li>
-                <!--Вспливаюче вікно підтвердження, що заявка була підтверджена-->
-                <ng-template #applyMessageContent let-modal>
-                  <div class="modal-header bg-secondary">
-                    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
-                      <span aria-hidden="true">&times;</span>
-                    </button>
-                  </div>
-                  <div class="modal-body bg-secondary">
-                    Заявка підтверджена!
-                  </div>
-                  <div class="modal-footer bg-secondary">
-                  </div>
-                </ng-template>
-                <!--Вспливаюче вікно підтвердження, що заявка була відхилена-->
-                <ng-template #declineMessageContent let-modal>
-                  <div class="modal-header bg-secondary">
-                    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
-                      <span aria-hidden="true">&times;</span>
-                    </button>
-                  </div>
-                  <div class="modal-body bg-secondary">
-                    Заявка відхилена!
-                  </div>
-                  <div class="modal-footer bg-secondary">
-                  </div>
-                </ng-template>
-              </ul>
+                  <!--Вспливаюче вікно підтвердження, що заявка була відхилена-->
+                  <ng-template #declineMessageContent let-modal>
+                    <div class="modal-header bg-secondary">
+                      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                    </div>
+                    <div class="modal-body bg-secondary">
+                      Заявка відхилена!
+                    </div>
+                    <div class="modal-footer bg-secondary">
+                    </div>
+                  </ng-template>
+                </ul>
+              </div>
             </div>
-          </div>
-          <!--Картка з даними адміна-->
-          <ng-template #elseBlock2>
-            <ul list-group>
-              <li class="list-group-item list-group-item-secondary">
-                {{ applicationService.getAdminCheck(application).user.login }}:
-              </li >
-              <li class="list-group-item list-group-item-{{applicationService.getAdminCheck(application).checkYesNoNull === true? 'success':'danger'}}">
-                {{ applicationService.getAdminCheck(application).checkYesNoNull === true? 'Прийнято' : 'Відхилено' }}
-              </li>
-              <li *ngIf="applicationService.getAdminCheck(application).note != null" class="list-group-item list-group-item-secondary">
-                {{ applicationService.getAdminCheck(application).note }}
-              </li>
-              <li class="list-group-item list-group-item-secondary">
-                {{ applicationService.getFancyDate(applicationService.getAdminCheck(application).checkingDate, this.locale) }}
-              </li>
-            </ul>
-          </ng-template>
-        </td>
-      </tr>
-      </tbody>
-    </table>
-    <!--Якщо не адмін намагається отримати доступ-->
-    <ng-template #elseNoAdmin>Помилка доступу.</ng-template>
+            <!--Картка з даними адміна-->
+            <ng-template #elseBlock2>
+              <ul list-group>
+                <li class="list-group-item list-group-item-secondary">
+                  {{ applicationService.getAdminCheck(application).user.login }}:
+                </li >
+                <li class="list-group-item list-group-item-{{applicationService.getAdminCheck(application).checkYesNoNull === true? 'success':'danger'}}">
+                  {{ applicationService.getAdminCheck(application).checkYesNoNull === true? 'Прийнято' : 'Відхилено' }}
+                </li>
+                <li *ngIf="applicationService.getAdminCheck(application).note != null" class="list-group-item list-group-item-secondary">
+                  {{ applicationService.getAdminCheck(application).note }}
+                </li>
+                <li class="list-group-item list-group-item-secondary">
+                  {{ applicationService.getFancyDate(applicationService.getAdminCheck(application).checkingDate, this.locale) }}
+                </li>
+              </ul>
+            </ng-template>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+      <!--Якщо не адмін намагається отримати доступ-->
+      <ng-template #elseNoAdmin>Помилка доступу.</ng-template>
+    </div>
+    <ng-template #applicationsExist>Для адміністратора немає завок.</ng-template>
   </div>
 </div>

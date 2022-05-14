@@ -8,7 +8,9 @@ import {PositionListComponent} from './component/position-list/position-list.com
 import {ApplicationListAdminComponent} from './component/application-list-admin/application-list-admin.component';
 import {ApplicationListOwnerComponent} from './component/application-list-owner/application-list-owner.component';
 
-
+/**
+ * Тут перераховані всі компоненти для вибору
+ */
 const routes: Routes = [
   { path: 'users', component: UserListComponent },
   { path: 'services', component: ServiceListComponent },

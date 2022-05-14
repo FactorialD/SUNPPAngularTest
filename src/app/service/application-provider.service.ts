@@ -1,6 +1,6 @@
 import {Injectable, TemplateRef} from '@angular/core';
 import {HttpClient, HttpParams} from '@angular/common/http';
-import {EMPTY, empty, Observable, Subject} from 'rxjs';
+import {Observable, Subject} from 'rxjs';
 import {Application} from '../model/application';
 import {SharedCurrentUserProviderService} from './shared-current-user-provider.service';
 import {ApplicationChecking} from '../model/application-checking';
@@ -249,14 +249,26 @@ export class ApplicationProviderService {
     this.refreshAdminComponent('Admin declined application');
   }
 
+  /**
+   * Поновлює змінну, що відповідає за оновлення компоненту списку заявок адміна
+   * @param changes строка, що описує зміни
+   */
   refreshAdminComponent(changes: string) {
     this.applicationAdminChangeSource.next(changes);
   }
 
+  /**
+   * Поновлює змінну, що відповідає за оновлення компоненту списку заявок власника
+   * @param changes строка, що описує зміни
+   */
   refreshOwnerComponent(changes: string) {
     this.applicationOwnerChangeSource.next(changes);
   }
 
+  /**
+   * Повертає істину, якщо запис перевірки це запис користувача
+   * @param check запис перевірки
+   */
   isUserCheck(check: ApplicationChecking): boolean {
     if (check.checkType.name === 'USER_APPLICATION_RECORD') {
       return true;
@@ -265,6 +277,10 @@ export class ApplicationProviderService {
     }
   }
 
+  /**
+   * Повертає істину, якщо запис перевірки це запис власника
+   * @param check запис перевірки
+   */
   isOwnerCheck(check: ApplicationChecking): boolean {
     if (check.checkType.name === 'CHECKING_RECORD' &&
       check.role.name === 'Власник') {
@@ -274,6 +290,10 @@ export class ApplicationProviderService {
     }
   }
 
+  /**
+   * Повертає істину, якщо запис перевірки це запис адміна
+   * @param check запис перевірки
+   */
   isAdminCheck(check: ApplicationChecking): boolean {
     if (check.checkType.name === 'CHECKING_RECORD' &&
       check.role.name === 'Адміністратор') {
@@ -283,30 +303,47 @@ export class ApplicationProviderService {
     }
   }
 
-  getUserCheck(applicaton: Application): ApplicationChecking {
-    for (const check of applicaton.checkings) {
+  /**
+   * Повертає запис перевірки користувача
+   * @param application заявка, з якої буде вибиратися перевірка
+   */
+  getUserCheck(application: Application): ApplicationChecking {
+    for (const check of application.checkings) {
       if (this.isUserCheck(check)) {
         return check;
       }
     }
   }
 
-  getOwnerCheck(applicaton: Application): ApplicationChecking {
-    for (const check of applicaton.checkings) {
+  /**
+   * Повертає запис перевірки власника
+   * @param application заявка, з якої буде вибиратися перевірка
+   */
+  getOwnerCheck(application: Application): ApplicationChecking {
+    for (const check of application.checkings) {
       if (this.isOwnerCheck(check)) {
         return check;
       }
     }
   }
 
-  getAdminCheck(applicaton: Application): ApplicationChecking {
-    for (const check of applicaton.checkings) {
+  /**
+   * Повертає запис перевірки адміна
+   * @param application заявка, з якої буде вибиратися перевірка
+   */
+  getAdminCheck(application: Application): ApplicationChecking {
+    for (const check of application.checkings) {
       if (this.isAdminCheck(check)) {
         return check;
       }
     }
   }
 
+  /**
+   * Повертає красиво відформатовану дату і час
+   * @param date дата, яка буде відформатована
+   * @param locale локаль
+   */
   getFancyDate(date: Date, locale): string {
     return formatDate(date, 'yyyy/MM/dd HH:mm:ss', locale);
   }

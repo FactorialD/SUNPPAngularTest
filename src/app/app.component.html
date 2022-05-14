@@ -4,6 +4,7 @@
   </div>
   <div class="row">
     <div class="card-columns mx-3">
+      <!--Картка з базовими діями-->
       <div class="card bg-secondary">
         <div class="card-header">
           Доступні дії
@@ -19,6 +20,7 @@
           </ul>
         </div>
       </div>
+      <!--Картка з діями для власника-->
       <div *ngIf="currentUser!= null && userService.isUserOwner(currentUser)" class="card bg-secondary">
           <div class="card-header">Додаткові дії для власника:</div>
           <div class="card-body">
@@ -29,6 +31,7 @@
             </ul>
           </div>
       </div>
+      <!--Катрка з діями для адміністратора-->
       <div *ngIf="currentUser!= null && userService.isUserAdmin(currentUser)" class="card bg-secondary">
         <div class="card-header">Дії для адміністратора:</div>
         <div class="card-body">
@@ -48,13 +51,14 @@
           </ul>
         </div>
       </div>
+      <!--Картка з даними теперішнього користувача-->
       <app-current-user></app-current-user>
     </div>
   </div>
   <div class="row">
     <div class="col">
+      <!--Потрібний компонент-->
       <router-outlet></router-outlet>
     </div>
-
   </div>
 </div>
